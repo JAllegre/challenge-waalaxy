@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { postSetColorAction } from '../api/commandApi';
+import { postSetColorAction, postSetSizeAction } from '../api/commandApi';
 import { DEFAULT_COLOR, DEFAULT_SIZE } from '../constants';
 import Avatar from './Avatar';
 import Button from './ui/Button';
@@ -18,6 +18,7 @@ const AvatarEditor: FC = () => {
   const [color, setColor] = useState(DEFAULT_COLOR);
   const [appliedColor, setAppliedColor] = useState(DEFAULT_COLOR);
   const [size, setSize] = useState(DEFAULT_SIZE);
+  const [appliedSize, setAppliedSize] = useState(DEFAULT_SIZE);
 
   const handleColorChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -27,12 +28,9 @@ const AvatarEditor: FC = () => {
   );
 
   const handleColorApplyClick = useCallback(() => {
-    if (color === appliedColor) {
-      return;
-    }
     postSetColorAction(color);
     setAppliedColor(color);
-  }, []);
+  }, [color]);
 
   const handleSizeChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -41,9 +39,14 @@ const AvatarEditor: FC = () => {
     []
   );
 
+  const handleSizeApplyClick = useCallback(() => {
+    postSetSizeAction(size);
+    setAppliedSize(size);
+  }, [size]);
+
   return (
     <Card>
-      <Avatar color={appliedColor} size={size} />
+      <Avatar color={appliedColor} size={appliedSize} />
       <StyledActionBar id="editor-action-bar">
         <FormField>
           <label htmlFor="editor-input-color">Color:</label>
@@ -66,6 +69,7 @@ const AvatarEditor: FC = () => {
             value={size}
             onChange={handleSizeChange}
           />
+          <Button onClick={handleSizeApplyClick}>Apply</Button>
         </FormField>
       </StyledActionBar>
     </Card>

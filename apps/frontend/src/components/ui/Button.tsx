@@ -4,8 +4,13 @@ import styled from 'styled-components';
 type ButtonProps = HTMLAttributes<HTMLButtonElement>;
 
 const StyledButton = styled.button`
-  padding: 50px;
+  padding: 6px 10px;
   cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
 `;
 
 const Button: FC<ButtonProps> = ({ children, ...props }) => {

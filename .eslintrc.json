@@ -40,7 +40,6 @@
         "no-continue": "off",
         "no-await-in-loop": "off",
         "no-restricted-syntax": "off",
-        "react-hooks/exhaustive-deps": "off",
         "import/no-extraneous-dependencies": "off",
         "import/extensions": "off",
         "import/no-unresolved": [0],
