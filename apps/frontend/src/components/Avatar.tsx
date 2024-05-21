@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import styled from 'styled-components';
 import waalaxyHead from '../assets/waalaxy-head.png';
 import { DEFAULT_COLOR, DEFAULT_SIZE } from '../constants';
@@ -20,10 +21,12 @@ const StyledImage = styled.img`
   height: 100%;
 `;
 
-export default function Avatar({ color, size }: AvatarProps) {
+const Avatar: FC<AvatarProps> = ({ color, size }) => {
   return (
     <StyledAvatar id="avatar" color={color} size={size}>
       <StyledImage src={waalaxyHead} alt="avatar" />
     </StyledAvatar>
   );
-}
+};
+
+export default Avatar;

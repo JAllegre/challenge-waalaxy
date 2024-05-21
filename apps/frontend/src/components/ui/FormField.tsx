@@ -1,3 +1,4 @@
+import { FC, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 const StyledFormField = styled.div`
@@ -6,6 +7,8 @@ const StyledFormField = styled.div`
   align-items: center;
 `;
 
-export default function FormField({ children }: { children: React.ReactNode }) {
+const FormField: FC<PropsWithChildren> = ({ children }) => {
   return <StyledFormField>{children}</StyledFormField>;
-}
+};
+
+export default FormField;

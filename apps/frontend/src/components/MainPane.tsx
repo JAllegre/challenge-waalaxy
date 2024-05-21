@@ -1,7 +1,8 @@
+import { FC } from 'react';
 import styled from 'styled-components';
 import ActionViewer from './ActionViewer';
-import { AvatarEditor } from './AvatarEditor';
-import { AvatarViewer } from './AvatarViewer';
+import AvatarEditor from './AvatarEditor';
+import AvatarViewer from './AvatarViewer';
 
 const StyledMainPane = styled.div`
   display: flex;
@@ -10,7 +11,7 @@ const StyledMainPane = styled.div`
   align-items: stretch;
 `;
 
-export default function MainPane() {
+const MainPane: FC = () => {
   return (
     <StyledMainPane id="main-pane">
       <AvatarEditor />
@@ -18,4 +19,6 @@ export default function MainPane() {
       <AvatarViewer />
     </StyledMainPane>
   );
-}
+};
+
+export default MainPane;

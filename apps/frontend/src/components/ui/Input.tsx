@@ -1,3 +1,4 @@
+import { FC, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 const StyledNumberInput = styled.input`
@@ -7,7 +8,10 @@ const StyledNumberInput = styled.input`
   max-width: 60px;
 `;
 
-type NumberInputProps = React.InputHTMLAttributes<HTMLInputElement>;
-export default function NumberInput({ ...props }: NumberInputProps) {
+type NumberInputProps = InputHTMLAttributes<HTMLInputElement>;
+
+const NumberInput: FC<NumberInputProps> = ({ ...props }) => {
   return <StyledNumberInput {...props} type="number" />;
-}
+};
+
+export default NumberInput;

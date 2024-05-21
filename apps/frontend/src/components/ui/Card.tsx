@@ -1,10 +1,5 @@
-// a react component representing a basic card with box shadow using styled-components
-import React from 'react';
+import { FC, PropsWithChildren } from 'react';
 import styled from 'styled-components';
-
-interface CardProps {
-  children?: React.ReactNode;
-}
 
 const StyledCard = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -18,7 +13,7 @@ const StyledCard = styled.div`
   background-color: white;
 `;
 
-const Card: React.FC<CardProps> = ({ children }) => {
+const Card: FC<PropsWithChildren> = ({ children }) => {
   return <StyledCard>{children}</StyledCard>;
 };
 
