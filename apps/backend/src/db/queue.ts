@@ -1,13 +1,7 @@
+import { ActionItem } from 'shared/types';
 import { ActionKind } from '../types';
 import { ACTION_QUEUE_TABLE } from '../utils/constants';
 import { getDb } from './connector';
-
-interface ActionQueueRow {
-  id: number;
-  kind: string;
-  remainingCredits: number;
-  data: string;
-}
 
 export async function addActionToQueue(
   kind: ActionKind,
@@ -20,7 +14,7 @@ export async function addActionToQueue(
   );
 }
 
-export async function getActionQueue(): Promise<ActionQueueRow[]> {
+export async function getActionQueue(): Promise<ActionItem[]> {
   const db = await getDb();
   const rows = await db.all(`SELECT * FROM  ${ACTION_QUEUE_TABLE}`);
   return rows;
@@ -31,9 +25,7 @@ export async function removeQueueAction(actionId: number): Promise<void> {
   await db.all(`DELETE FROM ${ACTION_QUEUE_TABLE} WHERE id = ${actionId}`);
 }
 
-export async function getFirstQueueAction(): Promise<
-  ActionQueueRow | undefined
-> {
+export async function getFirstQueueAction(): Promise<ActionItem | undefined> {
   const db = await getDb();
   const row = await db.get(
     `SELECT * FROM  ${ACTION_QUEUE_TABLE} ORDER BY id ASC LIMIT 1`

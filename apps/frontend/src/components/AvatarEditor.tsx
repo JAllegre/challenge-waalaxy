@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { postSetColorAction, postSetSizeAction } from '../api/commandApi';
-import { DEFAULT_COLOR, DEFAULT_SIZE } from '../constants';
-import Avatar from './Avatar';
+import { postSetColorAction, postSetSizeAction } from '../api/actionsApi';
+import { DEFAULT_AVATAR_COLOR, DEFAULT_AVATAR_SIZE } from '../constants';
+import Avatar from './AvatarImage';
 import Button from './ui/Button';
 import Card from './ui/Card';
 import FormField from './ui/FormField';
@@ -15,10 +15,10 @@ const StyledActionBar = styled.div`
 `;
 
 const AvatarEditor: FC = () => {
-  const [color, setColor] = useState(DEFAULT_COLOR);
-  const [appliedColor, setAppliedColor] = useState(DEFAULT_COLOR);
-  const [size, setSize] = useState(DEFAULT_SIZE);
-  const [appliedSize, setAppliedSize] = useState(DEFAULT_SIZE);
+  const [color, setColor] = useState(DEFAULT_AVATAR_COLOR);
+  const [appliedColor, setAppliedColor] = useState(DEFAULT_AVATAR_COLOR);
+  const [size, setSize] = useState(DEFAULT_AVATAR_SIZE);
+  const [appliedSize, setAppliedSize] = useState(DEFAULT_AVATAR_SIZE);
 
   const handleColorChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {

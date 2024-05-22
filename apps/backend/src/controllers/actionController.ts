@@ -12,7 +12,7 @@ import { actionKinds } from './actions/actionKinds';
 async function refreshClientQueue() {
   const rows = await getActionQueue();
   (await getSocketServer().fetchSockets()).forEach((socket) => {
-    socket.emit('queue', rows);
+    socket.emit('actions', rows);
   });
 }
 
