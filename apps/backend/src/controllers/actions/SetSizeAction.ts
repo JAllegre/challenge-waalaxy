@@ -1,16 +1,19 @@
+import { updateAvatarSize } from '../../db/avatar';
 import { ActionKind } from '../../types';
 import BaseAction from './BaseAction';
-import { computeMaxExecutionCredits } from './utils';
-
-const executionCreditsForSetSizeAction = computeMaxExecutionCredits();
 
 export default class SetSizeAction extends BaseAction {
-  private size: number;
-  constructor(newSize: number) {
-    super(ActionKind.SetSize, executionCreditsForSetSizeAction);
-    this.size = newSize;
+  constructor() {
+    super(ActionKind.SetSize);
   }
-  public getData() {
-    return { size: this.size };
+
+  public async execute<T>(data: T): Promise<boolean> {
+    if (this.executionCredits <= 0) {
+      return false;
+    }
+    const { size } = data as { size: number };
+    updateAvatarSize(size);
+    this.executionCredits--;
+    return true;
   }
 }

@@ -1,14 +1,51 @@
-import { addActionToQueue } from '../db/queue';
-import SetColorAction from './actions/SetColorAction';
-import SetSizeAction from './actions/SetSizeAction';
+import { selectAvatar } from '../db/avatar';
+import {
+  addActionToQueue,
+  getActionQueue,
+  getFirstQueueAction,
+  removeQueueAction,
+} from '../db/queue';
+import { getSocketServer } from '../socketServer';
+import { ActionKind } from '../types';
+import { actionKinds } from './actions/actionKinds';
+
+async function refreshClientQueue() {
+  const rows = await getActionQueue();
+  (await getSocketServer().fetchSockets()).forEach((socket) => {
+    socket.emit('queue', rows);
+  });
+}
+
+async function refreshClientAvatar() {
+  const row = await selectAvatar();
+  (await getSocketServer().fetchSockets()).forEach((socket) => {
+    socket.emit('avatar', row);
+  });
+}
 
 export default {
-  setColor: (color: string) => {
-    addActionToQueue(new SetColorAction(color));
+  setColor: async (color: string) => {
+    await addActionToQueue(ActionKind.SetColor, { color });
+    await refreshClientQueue();
     console.log(`Setting color to ${color}`);
   },
-  setSize: (size: number) => {
-    addActionToQueue(new SetSizeAction(size));
+  setSize: async (size: number) => {
+    addActionToQueue(ActionKind.SetSize, { size });
+    await refreshClientQueue();
     console.log(`Setting size to ${size}`);
+  },
+  executeNextAction: async () => {
+    try {
+      const action = await getFirstQueueAction();
+      if (!action) {
+        return;
+      }
+      actionKinds[action.kind].execute(JSON.parse(action.data));
+      await removeQueueAction(action.id);
+      await refreshClientQueue();
+      await refreshClientAvatar();
+    } catch (error) {
+      console.error('executionManager.ts', 'Error executing action: ', error);
+    }
   },
 };

@@ -1,16 +1,18 @@
 import { ActionKind } from '../../types';
+import { computeMaxExecutionCredits } from './utils';
 
 export default class BaseAction {
   public kind: ActionKind;
   public executionCredits: number;
-  constructor(newKind: ActionKind, newExecutionCredits: number) {
-    this.executionCredits = newExecutionCredits;
+  constructor(newKind: ActionKind) {
     this.kind = newKind;
+    this.executionCredits = computeMaxExecutionCredits();
   }
-  public getExecutionCredits() {
-    return this.executionCredits;
+  public refreshExecutionCredits() {
+    this.executionCredits = computeMaxExecutionCredits();
   }
-  public getData() {
+
+  public async execute<T>(_param: T): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
 }

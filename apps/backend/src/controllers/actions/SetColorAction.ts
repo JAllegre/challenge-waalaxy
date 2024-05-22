@@ -1,16 +1,19 @@
+import { updateAvatarColor } from '../../db/avatar';
 import { ActionKind } from '../../types';
 import BaseAction from './BaseAction';
-import { computeMaxExecutionCredits } from './utils';
-
-const executionCreditsForSetColorAction = computeMaxExecutionCredits();
 
 export default class SetColorAction extends BaseAction {
-  private color: string;
-  constructor(newColor: string) {
-    super(ActionKind.SetColor, executionCreditsForSetColorAction);
-    this.color = newColor;
+  constructor() {
+    super(ActionKind.SetColor);
   }
-  public getData() {
-    return { color: this.color };
+
+  public async execute<T>(data: T): Promise<boolean> {
+    if (this.executionCredits <= 0) {
+      return false;
+    }
+    const { color } = data as { color: string };
+    updateAvatarColor(color);
+    this.executionCredits--;
+    return true;
   }
 }

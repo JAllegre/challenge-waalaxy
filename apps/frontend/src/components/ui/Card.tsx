@@ -14,7 +14,7 @@ const StyledCard = styled.div`
 `;
 
 const Card: FC<PropsWithChildren> = ({ children }) => {
-  return <StyledCard>{children}</StyledCard>;
+  return <StyledCard className="ui-card">{children}</StyledCard>;
 };
 
 export default Card;
