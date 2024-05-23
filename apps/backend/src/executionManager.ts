@@ -1,5 +1,8 @@
-import actionController from './controllers/actionController';
-import { refreshExecutionCredits } from './controllers/actions/actionTypes';
+import {
+  executeNextAction,
+  refreshAllExecutionCredits,
+} from './controllers/actionController';
+
 import {
   ACTION_EXECUTION_INTERVAL,
   RENEW_ACTION_TYPES_INTERVAL,
@@ -11,7 +14,7 @@ let renewActionTypesIntervalHandle: NodeJS.Timeout | undefined = undefined;
 export function startExecutionPolling() {
   actionExecutionIntervalHandle = setInterval(async () => {
     try {
-      await actionController.executeNextAction();
+      await executeNextAction();
     } catch (error) {
       console.error('Error while executeNextAction: ', error);
     }
@@ -19,7 +22,7 @@ export function startExecutionPolling() {
 
   renewActionTypesIntervalHandle = setInterval(async () => {
     try {
-      refreshExecutionCredits();
+      refreshAllExecutionCredits();
     } catch (error) {
       console.error('Error while refreshExecutionCredits: ', error);
     }

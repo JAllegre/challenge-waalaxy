@@ -24,3 +24,15 @@ export function initSocketServer(httpServer: http.Server) {
 export function getSocketServer() {
   return socketServer;
 }
+
+export async function emitToAllSockets(
+  eventName: string,
+  data?: unknown
+): Promise<void> {
+  const allSockets = await getSocketServer().fetchSockets();
+  allSockets.forEach((socket) => {
+    if (data && eventName) {
+      socket.emit(eventName, data);
+    }
+  });
+}
