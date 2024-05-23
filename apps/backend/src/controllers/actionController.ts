@@ -17,12 +17,12 @@ async function emitToAllSockets(message: string, data?: ActionItem[] | Avatar) {
   });
 }
 
-async function refreshClientQueue() {
+export async function refreshClientQueue() {
   const actionItems = await getActionQueue();
   await emitToAllSockets('wsc-actions', actionItems);
 }
 
-async function refreshClientAvatar() {
+export async function refreshClientAvatar() {
   const avatar = await selectAvatar();
   await emitToAllSockets('wsc-avatar', avatar);
 }
@@ -44,8 +44,12 @@ export default {
       if (!action) {
         return;
       }
-      actionKinds[action.kind].execute(JSON.parse(action.data));
-      await removeQueueAction(action.id);
+      const isExecuted = await actionKinds[action.kind].execute(
+        JSON.parse(action.data)
+      );
+      if (isExecuted) {
+        await removeQueueAction(action.id);
+      }
       await refreshClientQueue();
       await refreshClientAvatar();
     } catch (error) {

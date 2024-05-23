@@ -17,6 +17,7 @@ const Container = styled.div`
 
 const StyledTitle = styled.h1`
   color: white;
+  padding: 6px;
 `;
 
 root.render(

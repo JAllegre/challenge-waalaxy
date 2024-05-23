@@ -8,9 +8,12 @@ const StyledCard = styled.div`
   margin: 4px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   gap: 16px;
   align-items: center;
   background-color: white;
+  flex: 1;
 `;
 
 const Card: FC<PropsWithChildren> = ({ children }) => {

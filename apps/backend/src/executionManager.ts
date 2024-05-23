@@ -1,8 +1,9 @@
 import actionController from './controllers/actionController';
 import { refreshExecutionCredits } from './controllers/actions/actionKinds';
-
-const ACTION_EXECUTION_INTERVAL = 15 * 1000; //15 sec
-const RENEW_ACTION_KINDS_INTERVAL = 10 * 60 * 1000; //10min
+import {
+  ACTION_EXECUTION_INTERVAL,
+  RENEW_ACTION_KINDS_INTERVAL,
+} from './utils/constants';
 
 let actionExecutionIntervalHandle: NodeJS.Timeout | undefined = undefined;
 let renewActionKindsIntervalHandle: NodeJS.Timeout | undefined = undefined;

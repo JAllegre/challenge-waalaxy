@@ -8,12 +8,11 @@ export default class SetColorAction extends BaseAction {
   }
 
   public async execute<T>(data: T): Promise<boolean> {
-    if (this.executionCredits <= 0) {
-      return false;
+    if (this.checkExecutionCredits()) {
+      const { color } = data as { color: string };
+      updateAvatarColor(color);
+      return true;
     }
-    const { color } = data as { color: string };
-    updateAvatarColor(color);
-    this.executionCredits--;
-    return true;
+    return false;
   }
 }

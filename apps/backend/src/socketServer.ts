@@ -1,5 +1,9 @@
 import http from 'http';
 import { Server } from 'socket.io';
+import {
+  refreshClientAvatar,
+  refreshClientQueue,
+} from './controllers/actionController';
 let socketServer: Server;
 
 export function initSocketServer(httpServer: http.Server) {
@@ -11,6 +15,9 @@ export function initSocketServer(httpServer: http.Server) {
 
   socketServer.on('connection', (/*socket*/) => {
     console.log('Client connected');
+    //Refresh client on new connection
+    refreshClientQueue();
+    refreshClientAvatar();
   });
 }
 

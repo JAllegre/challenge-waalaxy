@@ -10,8 +10,11 @@ import AvatarViewer from './AvatarViewer';
 const StyledMainPane = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
+  width: 100%;
+  min-height: 80vh;
   align-items: stretch;
+  padding: 0 20px;
 `;
 
 const MainPane: FC = () => {
@@ -30,12 +33,10 @@ const MainPane: FC = () => {
     });
 
     socket.on('wsc-actions', (newActions) => {
-      console.log('***ju***MainPane.tsx/33', 'newActions:', newActions);
       setActions(newActions?.length ? newActions : []);
     });
 
     socket.on('wsc-avatar', (newAvatar) => {
-      console.log('***ju***MainPane.tsx/39', 'newAvatar:', newAvatar);
       setAvatar(newAvatar);
     });
     return () => {

@@ -10,6 +10,7 @@ interface AvatarViewerProps {
 const AvatarViewer: FC<AvatarViewerProps> = ({ avatar }) => {
   return (
     <Card>
+      <h2>Result</h2>
       <AvatarImage color={avatar?.color} size={avatar?.size} />
     </Card>
   );

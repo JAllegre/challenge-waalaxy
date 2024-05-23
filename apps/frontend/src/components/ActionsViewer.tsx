@@ -1,28 +1,26 @@
 import { ActionItem, ActionKind } from '@shared/types';
 import { FC } from 'react';
+import styled from 'styled-components';
 import Card from './ui/Card';
 
 interface ActionViewerProps {
   actions?: ActionItem[];
 }
 
+const StyledListItem = styled.li`
+  list-style: none;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  margin: 4px 0;
+  border-radius: 4px;
+`;
 const ActionsViewer: FC<ActionViewerProps> = ({ actions }) => {
-  console.log('***ju***ActionsViewer.tsx/10', 'actions:', actions);
-
   const actionItems = actions?.map((action) => {
-    let actionStr = '';
-    switch (action.kind) {
-      case ActionKind.SetColor:
-        actionStr = 'SetColor';
-        break;
-      case ActionKind.SetSize:
-        actionStr = 'SetSize';
-        break;
-      default:
-        actionStr = 'Unknown';
-        break;
-    }
-    return <li key={action.id}>{actionStr}</li>;
+    const actionDisplay = `${ActionKind[action.kind]} ( ${Object.values(
+      JSON.parse(action.data)
+    ).join(',')} )`;
+
+    return <StyledListItem key={action.id}>{actionDisplay}</StyledListItem>;
   });
 
   return (
