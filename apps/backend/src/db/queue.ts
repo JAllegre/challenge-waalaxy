@@ -1,5 +1,4 @@
-import { ActionItem } from 'shared/types';
-import { ActionKind } from '../types';
+import { ActionItem, ActionKind } from '@shared/types';
 import { ACTION_QUEUE_TABLE } from '../utils/constants';
 import { getDb } from './connector';
 

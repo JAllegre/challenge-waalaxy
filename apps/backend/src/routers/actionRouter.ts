@@ -1,5 +1,5 @@
+import { SetColorRequestBody, SetSizeRequestBody } from '@shared/types';
 import express from 'express';
-import { SetColorRequestBody, SetSizeRequestBody } from 'shared/types';
 import actionController from '../controllers/actionController';
 
 const actionRouter = express.Router();

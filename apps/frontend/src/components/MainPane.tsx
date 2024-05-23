@@ -1,3 +1,4 @@
+import { ActionItem, Avatar } from '@shared/types';
 import { FC, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import styled from 'styled-components';
@@ -14,8 +15,8 @@ const StyledMainPane = styled.div`
 `;
 
 const MainPane: FC = () => {
-  const [avatar, setAvatar] = useState([]);
-  const [actions, setActions] = useState([]);
+  const [avatar, setAvatar] = useState<Avatar>();
+  const [actions, setActions] = useState<ActionItem[]>([]);
 
   useEffect(() => {
     const socket = io(WS_BASE_URL);
@@ -24,13 +25,22 @@ const MainPane: FC = () => {
       console.log('Socket connected', socket.id);
     });
 
-    socket.on('actions', (newActions) => {
-      setActions(newActions?.length || []);
+    socket.on('disconnect', () => {
+      console.log('Socket disconnected', socket.id);
     });
 
-    socket.on('avatar', (newAvatar) => {
+    socket.on('wsc-actions', (newActions) => {
+      console.log('***ju***MainPane.tsx/33', 'newActions:', newActions);
+      setActions(newActions?.length ? newActions : []);
+    });
+
+    socket.on('wsc-avatar', (newAvatar) => {
+      console.log('***ju***MainPane.tsx/39', 'newAvatar:', newAvatar);
       setAvatar(newAvatar);
     });
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (

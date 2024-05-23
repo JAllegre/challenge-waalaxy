@@ -1,7 +1,6 @@
 /// <reference types='vitest' />
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import react from '@vitejs/plugin-react';
-import path from 'path';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import { scripts } from './package.json';
@@ -46,11 +45,6 @@ export default defineConfig({
     coverage: {
       reportsDirectory: '../../coverage/apps/frontend',
       provider: 'v8',
-    },
-  },
-  resolve: {
-    alias: {
-      '@common': path.resolve(__dirname, '../common'),
     },
   },
 });

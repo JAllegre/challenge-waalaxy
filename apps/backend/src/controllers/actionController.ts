@@ -1,3 +1,4 @@
+import { ActionItem, ActionKind, Avatar } from '@shared/types';
 import { selectAvatar } from '../db/avatar';
 import {
   addActionToQueue,
@@ -6,21 +7,24 @@ import {
   removeQueueAction,
 } from '../db/queue';
 import { getSocketServer } from '../socketServer';
-import { ActionKind } from '../types';
 import { actionKinds } from './actions/actionKinds';
 
-async function refreshClientQueue() {
-  const rows = await getActionQueue();
+async function emitToAllSockets(message: string, data?: ActionItem[] | Avatar) {
   (await getSocketServer().fetchSockets()).forEach((socket) => {
-    socket.emit('actions', rows);
+    if (data && message) {
+      socket.emit(message, data);
+    }
   });
 }
 
+async function refreshClientQueue() {
+  const actionItems = await getActionQueue();
+  await emitToAllSockets('wsc-actions', actionItems);
+}
+
 async function refreshClientAvatar() {
-  const row = await selectAvatar();
-  (await getSocketServer().fetchSockets()).forEach((socket) => {
-    socket.emit('avatar', row);
-  });
+  const avatar = await selectAvatar();
+  await emitToAllSockets('wsc-avatar', avatar);
 }
 
 export default {

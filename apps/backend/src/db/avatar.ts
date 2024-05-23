@@ -1,4 +1,4 @@
-import { Avatar } from 'shared/types';
+import { Avatar } from '@shared/types';
 import { AVATAR_TABLE } from '../utils/constants';
 import { getDb } from './connector';
 

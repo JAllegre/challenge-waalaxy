@@ -1,5 +1,5 @@
+import { ActionKind } from '@shared/types';
 import { updateAvatarSize } from '../../db/avatar';
-import { ActionKind } from '../../types';
 import BaseAction from './BaseAction';
 
 export default class SetSizeAction extends BaseAction {

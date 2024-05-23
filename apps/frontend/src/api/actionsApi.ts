@@ -1,5 +1,5 @@
+import { SetColorRequestBody, SetSizeRequestBody } from '@shared/types';
 import axios from 'axios';
-import { SetColorRequestBody, SetSizeRequestBody } from 'shared/types';
 import { API_BASE_URL } from '../constants';
 
 const ACTIONS_API = `${API_BASE_URL}/actions`;

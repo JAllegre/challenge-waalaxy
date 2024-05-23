@@ -8,10 +8,9 @@ export function initSocketServer(httpServer: http.Server) {
       origin: '*',
     },
   });
-  //io.fetchSockets()
 
   socketServer.on('connection', (/*socket*/) => {
-    console.log('a user connected');
+    console.log('Client connected');
   });
 }
 

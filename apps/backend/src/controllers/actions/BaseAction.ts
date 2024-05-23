@@ -1,4 +1,4 @@
-import { ActionKind } from '../../types';
+import { ActionKind } from '@shared/types';
 import { computeMaxExecutionCredits } from './utils';
 
 export default class BaseAction {

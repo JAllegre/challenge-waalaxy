@@ -1,4 +1,4 @@
-import { ActionKind } from '../../types';
+import { ActionKind } from '@shared/types';
 import SetColorAction from './SetColorAction';
 import SetSizeAction from './SetSizeAction';
 

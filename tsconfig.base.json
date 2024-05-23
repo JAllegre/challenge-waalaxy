@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@test-boilerplate/shared": ["shared/src/index.ts"]
+      "@shared/*": ["shared/src/*"]
     },
     "strictNullChecks": true,
     "resolveJsonModule": true
