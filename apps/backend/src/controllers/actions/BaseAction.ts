@@ -8,7 +8,7 @@ export default class BaseAction {
     this.type = newKind;
     this.executionCredits = computeMaxExecutionCredits();
   }
-  public refreshExecutionCredits() {
+  public renewExecutionCredits() {
     this.executionCredits = computeMaxExecutionCredits();
   }
 
@@ -20,7 +20,7 @@ export default class BaseAction {
     return false;
   }
 
-  public async execute<T>(_param: T): Promise<boolean> {
+  public async execute<T>(_param: T): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }

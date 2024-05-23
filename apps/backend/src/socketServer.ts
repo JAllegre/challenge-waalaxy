@@ -2,6 +2,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import {
   refreshClientAvatar,
+  refreshClientCredits,
   refreshClientQueue,
 } from './controllers/actionController';
 let socketServer: Server;
@@ -18,6 +19,7 @@ export function initSocketServer(httpServer: http.Server) {
     //Refresh client on new connection
     refreshClientQueue();
     refreshClientAvatar();
+    refreshClientCredits();
   });
 }
 

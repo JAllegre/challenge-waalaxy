@@ -1,6 +1,6 @@
 import {
   executeNextAction,
-  refreshAllExecutionCredits,
+  renewAllExecutionCredits,
 } from './controllers/actionController';
 
 import {
@@ -22,9 +22,9 @@ export function startExecutionPolling() {
 
   renewActionTypesIntervalHandle = setInterval(async () => {
     try {
-      refreshAllExecutionCredits();
+      renewAllExecutionCredits();
     } catch (error) {
-      console.error('Error while refreshExecutionCredits: ', error);
+      console.error('Error while renewExecutionCredits: ', error);
     }
   }, RENEW_ACTION_TYPES_INTERVAL);
 }

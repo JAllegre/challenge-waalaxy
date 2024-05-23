@@ -1,4 +1,4 @@
-import { ActionItem, Avatar } from '@shared/types';
+import { ActionItem, Avatar, RemainingCredits } from '@shared/types';
 import { FC, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import styled from 'styled-components';
@@ -20,6 +20,9 @@ const StyledMainPane = styled.div`
 const MainPane: FC = () => {
   const [avatar, setAvatar] = useState<Avatar>();
   const [actions, setActions] = useState<ActionItem[]>([]);
+  const [remainingCredits, setRemainingCredits] = useState<
+    RemainingCredits | undefined
+  >();
 
   useEffect(() => {
     const socket = io(WS_BASE_URL);
@@ -36,6 +39,10 @@ const MainPane: FC = () => {
       setActions(newActions?.length ? newActions : []);
     });
 
+    socket.on('wsc-credits', (newRemainingCredits) => {
+      setRemainingCredits(newRemainingCredits ? newRemainingCredits : {});
+    });
+
     socket.on('wsc-avatar', (newAvatar) => {
       setAvatar(newAvatar);
     });
@@ -47,7 +54,7 @@ const MainPane: FC = () => {
   return (
     <StyledMainPane id="main-pane">
       <AvatarEditor />
-      <ActionsViewer actions={actions} />
+      <ActionsViewer actions={actions} remainingCredits={remainingCredits} />
       <AvatarViewer avatar={avatar} />
     </StyledMainPane>
   );

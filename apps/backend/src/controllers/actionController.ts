@@ -2,7 +2,6 @@ import { ActionType } from '@shared/types';
 import {
   addActionToQueue,
   getActionQueue,
-  getFirstQueueAction,
   removeQueueAction,
 } from '../db/actionQueue';
 import { selectAvatar } from '../db/avatar';
@@ -15,12 +14,6 @@ export const actionTypes = {
   [ActionType.SetSize]: new SetSizeAction(),
 };
 
-export function refreshAllExecutionCredits() {
-  Object.values(actionTypes).forEach((action) =>
-    action.refreshExecutionCredits()
-  );
-}
-
 export async function refreshClientQueue() {
   const actionItems = await getActionQueue();
   await emitToAllSockets('wsc-actions', actionItems);
@@ -29,6 +22,20 @@ export async function refreshClientQueue() {
 export async function refreshClientAvatar() {
   const avatar = await selectAvatar();
   await emitToAllSockets('wsc-avatar', avatar);
+}
+
+export async function refreshClientCredits() {
+  const remainingCredits = {};
+  Object.values(actionTypes).forEach((actionType) => {
+    remainingCredits[actionType.type] = actionType.executionCredits;
+  });
+  emitToAllSockets('wsc-credits', remainingCredits);
+}
+
+export function renewAllExecutionCredits() {
+  Object.values(actionTypes).forEach((actionType) => {
+    actionType.renewExecutionCredits();
+  });
 }
 
 export async function addSetColorAction(color: string) {
@@ -45,18 +52,29 @@ export async function addSetSizeAction(size: number) {
 
 export async function executeNextAction() {
   try {
-    const action = await getFirstQueueAction();
-    if (!action) {
+    const actions = await getActionQueue();
+
+    // Find the next action type that can be executed depending on the remaining credits
+    const foundActionType = actions.find((action) => {
+      const actionType = actionTypes[action.type];
+      if (actionType.checkExecutionCredits()) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (!foundActionType) {
       return;
     }
-    const isExecuted = await actionTypes[action.type].execute(
-      JSON.parse(action.data)
+    await actionTypes[foundActionType.type].execute(
+      JSON.parse(foundActionType.data)
     );
-    if (isExecuted) {
-      await removeQueueAction(action.id);
-    }
+
+    await removeQueueAction(foundActionType.id);
     await refreshClientQueue();
     await refreshClientAvatar();
+    await refreshClientCredits();
   } catch (error) {
     console.error('executionManager.ts', 'Error executing action: ', error);
   }

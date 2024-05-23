@@ -7,13 +7,8 @@ export default class SetSizeAction extends BaseAction {
     super(ActionType.SetSize);
   }
 
-  public async execute<T>(data: T): Promise<boolean> {
-    if (this.executionCredits <= 0) {
-      return false;
-    }
+  public async execute<T>(data: T): Promise<void> {
     const { size } = data as { size: number };
     updateAvatarSize(size);
-    this.executionCredits--;
-    return true;
   }
 }

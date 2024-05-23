@@ -22,3 +22,5 @@ export interface Avatar {
   color: string;
   size: number;
 }
+
+export type RemainingCredits = Record<ActionType, number>;

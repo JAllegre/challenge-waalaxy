@@ -27,7 +27,7 @@ describe('SetColorAction', () => {
   it('should return false if updating too many times (MAX_EXECUTION_CREDITS)', async () => {
     const data = { color: 'red' };
 
-    const allExecutionPromises: Promise<boolean>[] = [];
+    const allExecutionPromises: Promise<void>[] = [];
     for (let i = 0; i < MAX_EXECUTION_CREDITS; i++) {
       allExecutionPromises.push(setColorAction.execute(data));
     }
