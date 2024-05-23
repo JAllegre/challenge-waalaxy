@@ -1,4 +1,4 @@
-import { ActionItem, ActionKind } from '@shared/types';
+import { ActionItem, ActionType } from '@shared/types';
 import { FC } from 'react';
 import styled from 'styled-components';
 import Card from './ui/Card';
@@ -16,7 +16,7 @@ const StyledListItem = styled.li`
 `;
 const ActionsViewer: FC<ActionViewerProps> = ({ actions }) => {
   const actionItems = actions?.map((action) => {
-    const actionDisplay = `${ActionKind[action.kind]} ( ${Object.values(
+    const actionDisplay = `${ActionType[action.type]} ( ${Object.values(
       JSON.parse(action.data)
     ).join(',')} )`;
 

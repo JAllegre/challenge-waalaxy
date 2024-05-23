@@ -1,11 +1,11 @@
-import { ActionKind } from '@shared/types';
+import { ActionType } from '@shared/types';
 import { computeMaxExecutionCredits } from './utils';
 
 export default class BaseAction {
-  public kind: ActionKind;
+  public type: ActionType;
   public executionCredits: number;
-  constructor(newKind: ActionKind) {
-    this.kind = newKind;
+  constructor(newKind: ActionType) {
+    this.type = newKind;
     this.executionCredits = computeMaxExecutionCredits();
   }
   public refreshExecutionCredits() {

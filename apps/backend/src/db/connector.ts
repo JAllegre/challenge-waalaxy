@@ -25,6 +25,13 @@ async function openDB(create?: boolean): Promise<Database> {
   return db;
 }
 
+export async function getDb() {
+  if (db) {
+    return db;
+  }
+  return openDB();
+}
+
 /**
  * create DB and table if not exist , otherwise open it
  */
@@ -35,15 +42,15 @@ export async function initDB(): Promise<Database> {
   }
 
   await db?.exec(
-    `CREATE TABLE IF NOT EXISTS ${ACTION_QUEUE_TABLE} ( id INTEGER PRIMARY KEY, kind INTEGER , data JSON )`
+    `CREATE TABLE IF NOT EXISTS ${ACTION_QUEUE_TABLE} ( id INTEGER PRIMARY KEY, type INTEGER , data JSON )`
   );
 
   await db?.exec(
-    `CREATE TABLE IF NOT EXISTS ${ACTION_KIND_TABLE} ( kind INTEGER PRIMARY KEY, remainingCredits INTEGER )`
+    `CREATE TABLE IF NOT EXISTS ${ACTION_KIND_TABLE} ( type INTEGER PRIMARY KEY, remainingCredits INTEGER )`
   );
 
   await db?.exec(
-    `INSERT OR REPLACE INTO ${ACTION_KIND_TABLE} (kind,remainingCredits) VALUES (1,0), (2,0) `
+    `INSERT OR REPLACE INTO ${ACTION_KIND_TABLE} (type,remainingCredits) VALUES (1,0), (2,0) `
   );
 
   await db?.exec(
@@ -56,12 +63,5 @@ export async function initDB(): Promise<Database> {
   // Ensure mode is no more CREATE
   await db?.close();
   db = undefined;
-  return openDB();
-}
-
-export async function getDb() {
-  if (db) {
-    return db;
-  }
   return openDB();
 }

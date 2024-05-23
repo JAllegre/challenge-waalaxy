@@ -1,11 +1,11 @@
-export enum ActionKind {
+export enum ActionType {
   'SetColor' = 1,
   'SetSize' = 2,
 }
 
 export interface ActionItem {
   id: number;
-  kind: ActionKind;
+  type: ActionType;
   data: string;
 }
 

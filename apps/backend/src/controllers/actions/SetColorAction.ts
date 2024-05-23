@@ -1,10 +1,10 @@
-import { ActionKind } from '@shared/types';
+import { ActionType } from '@shared/types';
 import { updateAvatarColor } from '../../db/avatar';
 import BaseAction from './BaseAction';
 
 export default class SetColorAction extends BaseAction {
   constructor() {
-    super(ActionKind.SetColor);
+    super(ActionType.SetColor);
   }
 
   public async execute<T>(data: T): Promise<boolean> {

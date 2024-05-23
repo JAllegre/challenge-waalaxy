@@ -1,15 +1,15 @@
-import { ActionItem, ActionKind } from '@shared/types';
+import { ActionItem, ActionType } from '@shared/types';
 import { ACTION_QUEUE_TABLE } from '../utils/constants';
 import { getDb } from './connector';
 
 export async function addActionToQueue(
-  kind: ActionKind,
+  type: ActionType,
   data: object
 ): Promise<void> {
   const db = await getDb();
   await db.run(
-    `INSERT INTO ${ACTION_QUEUE_TABLE} (kind, data)  VALUES (?,json(?))`,
-    [kind, JSON.stringify(data)]
+    `INSERT INTO ${ACTION_QUEUE_TABLE} (type, data)  VALUES (?,json(?))`,
+    [type, JSON.stringify(data)]
   );
 }
 

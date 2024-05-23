@@ -1,10 +1,10 @@
-import { ActionKind } from '@shared/types';
+import { ActionType } from '@shared/types';
 import { updateAvatarSize } from '../../db/avatar';
 import BaseAction from './BaseAction';
 
 export default class SetSizeAction extends BaseAction {
   constructor() {
-    super(ActionKind.SetSize);
+    super(ActionType.SetSize);
   }
 
   public async execute<T>(data: T): Promise<boolean> {

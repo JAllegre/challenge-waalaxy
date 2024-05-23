@@ -1,12 +1,12 @@
 import actionController from './controllers/actionController';
-import { refreshExecutionCredits } from './controllers/actions/actionKinds';
+import { refreshExecutionCredits } from './controllers/actions/actionTypes';
 import {
   ACTION_EXECUTION_INTERVAL,
-  RENEW_ACTION_KINDS_INTERVAL,
+  RENEW_ACTION_TYPES_INTERVAL,
 } from './utils/constants';
 
 let actionExecutionIntervalHandle: NodeJS.Timeout | undefined = undefined;
-let renewActionKindsIntervalHandle: NodeJS.Timeout | undefined = undefined;
+let renewActionTypesIntervalHandle: NodeJS.Timeout | undefined = undefined;
 
 export function startExecutionPolling() {
   actionExecutionIntervalHandle = setInterval(async () => {
@@ -17,13 +17,13 @@ export function startExecutionPolling() {
     }
   }, ACTION_EXECUTION_INTERVAL);
 
-  renewActionKindsIntervalHandle = setInterval(async () => {
+  renewActionTypesIntervalHandle = setInterval(async () => {
     try {
       refreshExecutionCredits();
     } catch (error) {
       console.error('Error while refreshExecutionCredits: ', error);
     }
-  }, RENEW_ACTION_KINDS_INTERVAL);
+  }, RENEW_ACTION_TYPES_INTERVAL);
 }
 
 export function stoptExecutionPolling() {
@@ -32,8 +32,8 @@ export function stoptExecutionPolling() {
     actionExecutionIntervalHandle = undefined;
   }
 
-  if (renewActionKindsIntervalHandle) {
-    clearInterval(renewActionKindsIntervalHandle);
-    renewActionKindsIntervalHandle = undefined;
+  if (renewActionTypesIntervalHandle) {
+    clearInterval(renewActionTypesIntervalHandle);
+    renewActionTypesIntervalHandle = undefined;
   }
 }

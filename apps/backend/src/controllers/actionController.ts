@@ -1,13 +1,13 @@
-import { ActionItem, ActionKind, Avatar } from '@shared/types';
-import { selectAvatar } from '../db/avatar';
+import { ActionItem, ActionType, Avatar } from '@shared/types';
 import {
   addActionToQueue,
   getActionQueue,
   getFirstQueueAction,
   removeQueueAction,
-} from '../db/queue';
+} from '../db/actionQueue';
+import { selectAvatar } from '../db/avatar';
 import { getSocketServer } from '../socketServer';
-import { actionKinds } from './actions/actionKinds';
+import { actionTypes } from './actions/actionTypes';
 
 async function emitToAllSockets(message: string, data?: ActionItem[] | Avatar) {
   (await getSocketServer().fetchSockets()).forEach((socket) => {
@@ -29,12 +29,12 @@ export async function refreshClientAvatar() {
 
 export default {
   setColor: async (color: string) => {
-    await addActionToQueue(ActionKind.SetColor, { color });
+    await addActionToQueue(ActionType.SetColor, { color });
     await refreshClientQueue();
     console.log(`Setting color to ${color}`);
   },
   setSize: async (size: number) => {
-    addActionToQueue(ActionKind.SetSize, { size });
+    addActionToQueue(ActionType.SetSize, { size });
     await refreshClientQueue();
     console.log(`Setting size to ${size}`);
   },
@@ -44,7 +44,7 @@ export default {
       if (!action) {
         return;
       }
-      const isExecuted = await actionKinds[action.kind].execute(
+      const isExecuted = await actionTypes[action.type].execute(
         JSON.parse(action.data)
       );
       if (isExecuted) {
